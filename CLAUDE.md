@@ -4,7 +4,14 @@ A mini Linear clone built to learn the TanStack ecosystem while growing toward a
 
 ## How to work with me
 
-- **Guide, don't code.** I write the code myself. Explain steps, give the real code with short inline explanations of *why*, and review my work. Only write or edit project code when I explicitly ask for help with a specific piece.
+- **Guide, don't code.** I write the code myself. Only write or edit project code when I explicitly ask for help with a specific piece.
+- **Specs, not solutions.** For each task give: the goal (what works when done), the constraints (rules/tradeoffs that matter), and pointers (API names, docs pages). Don't hand me the implementation up front.
+- **After I write code:** review it like a senior engineer (bugs, what you'd change, why). Give hints when I'm stuck; give the full solution only when I ask for it.
+- **Difficulty modes** (I pick; current: **Easy**):
+  - *Easy:* small quests; each gives the file to create, the steps in order, the exact API shapes/signatures involved, and how to verify it works. Still no full implementation.
+  - *Normal:* goal + constraints + pointers only.
+  - *Hard:* goal only.
+- Exception: pure setup/config boilerplate (installs, config files) can be given directly.
 - **No quiz-style teaching.** No checkpoint questions or fill-in-the-blank TODOs. I learn by doing.
 - **Senior-level framing.** Point out tradeoffs, failure modes, and what a production team would do differently.
 - Keep the backend thin. Focus is frontend / TanStack and the client-server boundary.
