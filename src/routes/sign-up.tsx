@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { authClient } from '#/lib/auth-client'
 
 import { Button } from '#/components/ui/button'
@@ -94,6 +94,12 @@ function SignUpPage() {
         <Button type="submit" className="w-full" disabled={isPending}>
           {isPending ? 'Creating account…' : 'Sign up'}
         </Button>
+        <p className="text-sm text-muted-foreground text-center">
+          Already have an account?{' '}
+          <Link to="/sign-in" className="underline">
+            Sign in
+          </Link>
+        </p>
       </form>
     </main>
   )

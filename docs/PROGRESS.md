@@ -4,15 +4,15 @@ A mini Linear-style issue tracker, built to learn the TanStack ecosystem (Start,
 
 Backend is intentionally thin (Prisma + SQLite + server functions). Focus is the frontend and the client/server boundary.
 
-**Last updated:** 2026-09-29
+**Last updated:** 2026-10-14
 
 ---
 
 ## Where I am
 
-**Current:** Milestone 1, step 4 — first vertical slice (not started)
+**Current:** Milestone 1, step 4 — first vertical slice (auth pages done)
 
-**Next action:** Build sign up → create workspace → empty issue list (details below).
+**Next action:** Server function to create a workspace (+ owner membership + default statuses, in one transaction).
 
 ---
 
@@ -25,7 +25,7 @@ Backend is intentionally thin (Prisma + SQLite + server functions). Focus is the
 - [x] Connect Better Auth to Prisma (`src/lib/auth.ts`)
 - [x] Schema + first migration (`prisma/schema.prisma`, `prisma/migrations/`)
 - [ ] **Step 4: First vertical slice**
-  - [ ] Sign-up / sign-in pages using `authClient` (`src/lib/auth-client.ts`)
+  - [x] Sign-up / sign-in pages using `authClient` (`src/routes/sign-up.tsx`, `src/routes/sign-in.tsx`)
   - [ ] Server function: create workspace (+ owner membership + default statuses, in one transaction)
   - [ ] Protected route layout: redirect to sign-in when there is no session
   - [ ] Route `/w/$slug` with a loader that prefetches via `context.queryClient.ensureQueryData`
@@ -92,6 +92,7 @@ Backend is intentionally thin (Prisma + SQLite + server functions). Focus is the
 
 - **Prisma Studio 7.10.0 is broken for SQLite** ("not supported for the file: protocol"). 7.9.1 works. Use `npm run db:studio` (pins Studio to 7.9.1), **not** `npx prisma studio`. Remove the pin once a fixed release is out.
 - **Leftover Drizzle scripts** in `package.json` (`db:generate`, `db:migrate`, `db:push`, `db:pull`) are broken since Drizzle was removed. Replace them, e.g. `"db:migrate": "prisma migrate dev"`.
+- **Prisma 7 `migrate dev` does not run `generate`.** A stale client causes Better Auth's "Prisma schema mismatch / Missing tables" error even though the tables exist. Always run `npx prisma generate` after migrating.
 - **ESLint peer warning** (`@tanstack/eslint-config` wants ESLint 10) — harmless.
 - **`npm audit` highs** are inside the Prisma CLI (dev-only: bundled `mysql2`, `deepmerge-ts`). Not reachable from the app. Do **not** run `npm audit fix --force` (downgrades to Prisma 6).
 - **First commit message is malformed** (the `-m` body ended up in the subject). Fix with `git commit --amend` if it hasn't been pushed.
@@ -119,6 +120,7 @@ Backend is intentionally thin (Prisma + SQLite + server functions). Focus is the
 4. Create the database and generate the client:
    ```bash
    npx prisma migrate dev
+   npx prisma generate
    ```
 5. Run:
    ```bash
@@ -133,7 +135,7 @@ Backend is intentionally thin (Prisma + SQLite + server functions). Focus is the
 |---|---|
 | `npm run dev` | Dev server on :3000 |
 | `npx tsc --noEmit` | Type check |
-| `npx prisma migrate dev --name <name>` | Create + apply a migration, regenerate client |
-| `npx prisma generate` | Regenerate client only |
+| `npx prisma migrate dev --name <name>` | Create + apply a migration (does **not** regenerate the client in Prisma 7) |
+| `npx prisma generate` | Regenerate the client. Run after every schema change / migration |
 | `npm run db:studio` | Browse data (Studio pinned to 7.9.1) |
 | `npx @better-auth/cli@latest generate --config src/lib/auth.ts` | Regenerate auth models after adding auth plugins |
